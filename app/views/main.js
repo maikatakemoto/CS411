@@ -20,9 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // If inputs are valid, proceed with calculation
         // You can implement the calculation logic here or submit the form to the server for processing
  
- 
- 
- 
         // need to replace with real API call here
         const distance = simulateDistanceCalculation(start, destination);
  
