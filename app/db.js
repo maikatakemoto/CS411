@@ -6,6 +6,7 @@ const client = new MongoClient(uri);
 
 async function connectToDatabase() {
     try {
+        console.log("Connecting...");
         await client.connect();
         console.log("Connected to database successfully");
         // Here you can return the client or the specific database you want to use
@@ -16,4 +17,4 @@ async function connectToDatabase() {
     }
 }
 
-export { connectToDatabase };
+connectToDatabase();
