@@ -30,7 +30,6 @@ app.post("/createUser", async (req, res) => {
 })
 
 
-
 app.listen(port, ()=> {
   console.log("Server is running")
 })
