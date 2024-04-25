@@ -2,7 +2,7 @@ import express from "express"
 import mongoose from "mongoose"
 import cors from "cors"
 // import { connectToDatabase } from "./db.js";
-import UserModel from "./app/models/Users.js"
+import UserModel from "./models/Users.js"
 
 const app = express();
 app.use(cors())
