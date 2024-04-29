@@ -53,5 +53,3 @@ app.listen(port, ()=> {
 // }
 
 // startServer();
-
-// Why do we need this??
