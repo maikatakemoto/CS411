@@ -1,57 +1,10 @@
 const apiKey = 'Nmg24Rr0pZ6Es2Zx5FYzJA'
 
-// Function to fetch vehicle makes from Carbon Interface API
-async function fetchVehicleModels(makeName) {
-    const makeUrl = `https://www.carboninterface.com/api/v1/vehicle_makes`;
-    const modelUrl = `https://www.carboninterface.com/api/v1/vehicle_makes/:${makeName}/vehicle_models`;
+// Default car: 2021 Toyota Corolla
+// id: 329f0cf0-6777-48f0-9dce-ef1d6fcfc4d6
 
-    try {
-        const response = await fetch(makeUrl, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${apiKey}`,
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to fetch vehicle makes');
-        }
-
-        const data = await response.json();
-        console.log('Vehicle makes:', data);
-
-        // Find the make by name
-        const make = data?.data.find(make => make.name.toLowerCase() === makeName.toLowerCase());
-        if (!make) {
-            throw new Error(`Vehicle make '${makeName}' not found`);
-        }
-
-        const makeId = make.id;
-
-        // Fetch vehicle models for the specified make
-        const modelResponse = await fetch(`${modelUrl}/${makeId}/vehicle_models`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${apiKey}`,
-            },
-        });
-
-        if (!modelResponse.ok) {
-            throw new Error('Failed to fetch vehicle models');
-        }
-
-        const modelsData = await modelResponse.json();
-        console.log('Vehicle models:', modelsData);
-
-        // Return the models data
-        return modelsData.data;
-    } catch (error) {
-        console.error('Error fetching vehicle models:', error.message);
-        return null;
-    }
-}
+// Default bus: Ford Transit T150 Wagon FFV
+// id: ad87879b-3d40-45a6-8e4f-bcf28bd49ae0
 
 // Function to calculate distance using Google Maps Distance Matrix API
 function calculateDistance(origin, destination) {
@@ -61,30 +14,24 @@ function calculateDistance(origin, destination) {
             origins: [origin],
             destinations: [destination],
             travelMode: 'DRIVING',
-            unitSystem: google.maps.UnitSystem.METRIC,
+            unitSystem: google.maps.UnitSystem.IMPERIAL,
         },
         async function (response, status) {
             if (status === 'OK') {
                 var distance = response.rows[0].elements[0].distance.value; // Distance in meters
-                var distanceKm = distance / 1000; // Convert distance to kilometers
+                var distanceKm = distance / 1609.34; // Convert distance to miles
 
                 try {
-                    // Fetch vehicle models for the desired make 
-                    const vehicleModels = await fetchVehicleModels('vehical_make');
-                    if (!vehicleModels || vehicleModels.length === 0) {
-                        throw new Error('No vehicle models found');
+                    const buttonPressed = "car"; 
+                    let vehicleModelId;
+                    if (buttonPressed) {
+                        vehicleModelId = "329f0cf0-6777-48f0-9dce-ef1d6fcfc4d6"; 
+                    } else if (buttonPressed === "bus") {
+                        vehicleModelId = "329f0cf0-6777-48f0-9dce-ef1d6fcfc4d6"; 
                     }
-
-                    // Assuming 'bus' is the desired vehicle type
-                    const busModel = vehicleModels.find(model => model.name.toLowerCase() === 'bus');
-                    if (!busModel) {
-                        throw new Error('Bus model not found');
-                    }
-
-                    const vehicleModelId = busModel.id;
 
                     // Call function to estimate carbon emissions
-                    estimateCarbonEmissions(vehicleModelId, 'km', distanceKm);
+                    estimateCarbonEmissions(vehicleModelId, 'mi', distanceMiles);
                 } catch (error) {
                     console.error('Error:', error.message);
                 }
@@ -103,7 +50,7 @@ async function estimateCarbonEmissions(vehicleModelId, distanceUnit, distanceVal
         type: 'vehicle',
         distance_unit: distanceUnit,
         distance_value: distanceValue,
-        vehicle_model_id: vehicleModelId,
+        vehicle_model_id: vehicleModelId, 
     };
 
     try {
