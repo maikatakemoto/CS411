@@ -1,27 +1,28 @@
 const Home = () => {
+
     return (
-        <section class="hero">
-            <div class="container">
+        <div class="home-page">
+            <div>
                 <h2>Measure Your Carbon Footprint</h2>
-                <p>Welcome to our Carbon Footprint Calculator! Calculate your carbon emissions for your daily journeys and find ways to reduce your impact on the environment.</p>
+                    <h3>Welcome to our Carbon Footprint Calculator! Calculate your carbon emissions for your daily journeys and find ways to reduce your impact on the environment.</h3>
                 <a href="/calculator" class="btn">Start Calculating</a>
             </div>
-            <div class="container">
+            <div>
                 <h2>Key Features</h2>
                 <ul>
-                    <li>Calculate carbon footprint based on transportation mode.</li>
-                    <li>Get tips for reducing your carbon footprint.</li>
+                    <h3>Calculate carbon footprint based on transportation mode.</h3>
+                    <h3>Get tips for reducing your carbon footprint.</h3>
                 </ul>
             </div>
-            <div class="container">
+            <div>
                 <h2>Resources</h2>
-                <p>Explore articles, videos, and tools to help you reduce your carbon footprint:</p>
+                    <h3>Explore articles, videos, and tools to help you reduce your carbon footprint:</h3>
             </div>
             <div>
                 <h2>Your Estimated Carbon Footprint</h2>
-                <p>Please see your calculated Carbon emission.</p>
+                    <h3>Please see your calculated Carbon emission.</h3>
             </div>
-        </section>
+        </div>
 
     )
 }

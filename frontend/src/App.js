@@ -5,6 +5,10 @@ import Home from './pages/Home';
 import Navbar from './components/Navbar'
 import Calculator from './pages/Calculator'
 import About from './pages/About'
+import Trips from './pages/Trips'
+import Login from './pages/Login'
+import Signup from './pages/Signup'
+
 
 function App() {
   return (
@@ -18,12 +22,24 @@ function App() {
             element={<Home />}
           />
           <Route 
+            path="/about" 
+            element={<About />} 
+          /> 
+          <Route 
+            path="/trips" 
+            element={<Trips />} 
+          /> 
+          <Route 
             path="/calculator" 
             element={<Calculator />} 
           /> 
           <Route 
-            path="/about" 
-            element={<About />} 
+            path="/login" 
+            element={<Login />} 
+          /> 
+          <Route 
+            path="/signup" 
+            element={<Signup />} 
           /> 
         </Routes>
        </div>

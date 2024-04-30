@@ -1,57 +1,34 @@
 import express from "express"
 import mongoose from "mongoose"
-import cors from "cors"
-// import { connectToDatabase } from "./db.js";
-import UserModel from "./models/Users.js"
+import tripRoutes from './routes/trips.js'
+import userRoutes from './routes/user.js'
+import 'dotenv/config'
 
 const app = express();
-app.use(cors())
-app.use(express.json());
-const port = 3000;
+const port = 4000;
 
+// app.use(cors())
+
+// middleware
+app.use(express.json());
+
+app.use((req, res, next) => {
+  console.log(req.path, req.method)
+  next()
+})
+
+// routes
+app.use('/api/trip/', tripRoutes)
+app.use('/api/user/', userRoutes)
+
+// connect to database
 mongoose.connect (
   "mongodb+srv://yuribychkov15:PQYydW85g3s1GJb7@cluster0.n7pakwc.mongodb.net/CRUD?retryWrites=true&w=majority&appName=Cluster0"
-)
-
-// get Users and their information -> use GET request in Thunderclient to see results
-app.get("/getUsers", (req, res) => {
-  UserModel.find({}).then(function(users) {
-    res.json(users)
-  }).catch(function(err) {
-    res.json(err)
+).then(() => {
+  app.listen(port, () => {
+    console.log("Connected to DB & Server is running on", {port})
   })
+}).catch((error) => {
+  console.log(error)
 })
 
-app.post("/createUser", async (req, res) => {
-  const user = req.body;
-  const newUser = new UserModel(user)
-  await newUser.save();
-  res.json(user);
-})
-
-
-app.listen(port, ()=> {
-  console.log("Server is running")
-})
-
-// app.use(express.static("public"));
-
-// app.use(bodyParser.urlencoded({ extended: true }));
-
-// app.get("/", (req, res) => {
-//   //Step 1 - Make the get route work and render the index.ejs file.
-//   res.render("index.ejs");
-// });
-
-
-// async function startServer() {
-//     const db = await connectToDatabase();
-//     // can use db to interact with our database
-//     app.listen(port, () => {
-//         console.log(`Server running on port ${port}.`);
-//     });
-// }
-
-// startServer();
-
-// Why do we need this??
