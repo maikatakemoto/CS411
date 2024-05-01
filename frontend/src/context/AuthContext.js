@@ -1,4 +1,4 @@
-import { createContext, useReducer } from 'react'
+import { createContext, useReducer, useEffect } from 'react'
 
 // Created using createContext(), this is a React context object that can be used to provide and consume authentication state throughout the component tree.
 export const AuthContext = createContext()
@@ -21,6 +21,16 @@ export const AuthContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(authReducer, {
         user: null
     })
+    // try to get user from local storage
+    // if there exists, we have a value which is the object with the email and token
+    // if not, we do not dispatch the action
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem('user'))
+
+        if (user) {
+            dispatch({ type: 'LOGIN', payload: user })
+        }
+    }, [])
 
     console.log('AuthContext state: ', state)
     

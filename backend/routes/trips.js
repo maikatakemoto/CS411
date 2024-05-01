@@ -8,7 +8,11 @@ import {
     updateTrip
 } from '../controllers/tripController.js'
 
+import requireAuth from '../middleware/requireAuth.js'
+
 const router = express.Router()
+// finds middleware function before all the other functions to protect data for each user
+router.use(requireAuth)
 
 // GET all trips
 router.get('/', getTrips)

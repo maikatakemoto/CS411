@@ -1,8 +1,10 @@
 import { useState } from "react"
 import { useTripsContext } from '../hooks/useTripsContext'
+import { useAuthContext } from '../hooks/useAuthContext'
 
 const TripForm = () => {
     const { dispatch } = useTripsContext()
+    const { user } = useAuthContext()
 
     const [transport, setTransport] = useState('')
     const [distance, setDistance] = useState('')
@@ -12,13 +14,19 @@ const TripForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
+        if (!user) {
+            setError('You must be logged in')
+            return
+        }
+
         const trip = {transport, distance}
 
         const response = await fetch('/api/trip/', {
             method: 'POST',
             body: JSON.stringify(trip),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
             }
         })
         const json = await response.json()

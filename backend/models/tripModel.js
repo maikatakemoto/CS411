@@ -8,6 +8,10 @@ const TripSchema = new mongoose.Schema({
     distance: {
         type: Number, 
         required: true
+    },
+    user_id: {
+        type: String,
+        required: true
     }
 })
 

@@ -1,12 +1,22 @@
 import { useTripsContext } from '../hooks/useTripsContext'
+import { useAuthContext } from '../hooks/useAuthContext'
 
 const TripDetails = ({ trip }) => {
 
     const { dispatch } = useTripsContext()
+    const { user } = useAuthContext()
 
     const handleClick = async () => {
+
+        if (!user) {
+            return
+        }
+
         const response = await fetch('/api/trip/' + trip._id, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${user.token}`
+            }
         })
         const json = await response.json()
 

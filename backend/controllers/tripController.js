@@ -4,7 +4,9 @@ import mongoose from 'mongoose'
 // get all trips
 
 export const getTrips = async (req, res) => {
-    const trips = await tripModel.find({}).sort({createdAt: -1})
+    const user_id = req.user._id
+
+    const trips = await tripModel.find({ user_id }).sort({createdAt: -1})
 
     res.status(200).json(trips)
 }
@@ -46,7 +48,8 @@ export const createTrip = async (req, res) => {
 
     // add doc to DB
     try {
-        const trip = await tripModel.create({ transport, distance });
+        const user_id = req.user._id
+        const trip = await tripModel.create({ transport, distance, user_id });
         res.status(200).json(trip);
     } catch (error) {
         res.status(400).json({ message: error.message });

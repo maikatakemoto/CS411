@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useTripsContext } from '../hooks/useTripsContext'
+import { useAuthContext } from '../hooks/useAuthContext'
 
 // components
 import TripDetails from '../components/TripDetails'
@@ -8,10 +9,15 @@ import TripForm from '../components/TripForm'
 const Trips = () => {
 
     const {trips, dispatch} = useTripsContext()
+    const {user} = useAuthContext()
 
     useEffect(() => {
         const fetchTrips = async () => {
-            const response = await fetch("/api/trip/")
+            const response = await fetch("/api/trip/", {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
+            })
             // need to do json because we are fetching data from tripController in the form of json
             const json = await response.json();
 
@@ -20,8 +26,10 @@ const Trips = () => {
             }
         }
 
-        fetchTrips()
-    }, [dispatch])
+        if (user) {
+            fetchTrips()
+        }
+    }, [dispatch, user])
 
     
 
